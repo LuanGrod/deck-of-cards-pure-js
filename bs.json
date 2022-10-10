@@ -1,0 +1,10 @@
+{
+    "code": "AS", 
+    "image": "https://deckofcardsapi.com/static/img/AS.png",
+    "images": {
+        "svg": "https://deckofcardsapi.com/static/img/AS.svg", 
+        "png": "https://deckofcardsapi.com/static/img/AS.png"
+    }, 
+    "value": "ACE", 
+    "suit": "SPADES"
+}

@@ -1,9 +1,27 @@
+values = {
+    "ACE": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7,
+    "8": 8,
+    "9": 9,
+    "10": 10,
+    "JACK": 10,
+    "QUEEN": 10,
+    "KING": 10
+}
+
 function Deck(deckId, remaining) {
     this.deckId = deckId
     this.remaining = remaining
 }
 
-let deck = new Deck(0, 52)
+function Hand(points) {
+    this.points = points
+}
 
 // receive API data by Get method
 async function getDeck() {
@@ -22,11 +40,6 @@ async function getDeck() {
             document.getElementById("IdSection").innerHTML = "Deck ID: " + responseJson.deck_id
 
             // choose the number of cards that will be draw when initialized
-            // // aqui da pra criar uma função que sorteia um determinado numero de cartas de acordo com
-            // // o parametro, para deixar mais genérico pq o código está duplicado
-            deck.remaining = deck.remaining - 2
-            document.getElementById("RemainingSection").innerHTML = "Remaining: " + deck.remaining
-
             getCartas(2)
         } else {
             throw new Error(responseGet.status)
@@ -34,13 +47,6 @@ async function getDeck() {
     } catch (err) {
         document.getElementById("IdSection").innerHTML = err.message;
     }
-}
-
-function reset() {
-    deck = new Deck(0, 52)
-    document.getElementById("IdSection").innerHTML = ""
-    document.getElementById("RemainingSection").innerHTML = ""
-    document.getElementById("lista").innerHTML = ""
 }
 
 async function getCartas(qtd) {
@@ -51,6 +57,7 @@ async function getCartas(qtd) {
             responseJson = await responseGet.json()
 
             for (let i = 0; i < qtd; i++) {
+                //print card image in window
                 var img = document.createElement("img")
                 img.height = 200
                 img.style.padding = "0 10px"
@@ -58,7 +65,29 @@ async function getCartas(qtd) {
                 let url = responseJson.cards[i].image
                 img.src = url
                 document.getElementById("lista").appendChild(img)
+
+                //add card value to player's hand
+                for (let j = 0; j < Object.keys(values).length; j++) {
+                    if (responseJson.cards[i].value == Object.keys(values)[j]) {
+                        hand.points += Object.values(values)[j]
+                    }
+                }
             }
+            
+            //print updates in the window
+            deck.remaining = deck.remaining - qtd
+            document.getElementById("RemainingSection").innerHTML = "Remaining: " + deck.remaining
+            document.getElementById("PlayerPoints").innerHTML = "Points: " + hand.points
+
+            setTimeout(() => {
+                if (hand.points > 21) {
+                    alert("YOU LOSE!")
+                    reset()
+                } else if (hand.points == 21) {
+                    alert("YOU WIN!")
+                    reset()
+                }
+            }, 150);
         } else {
             throw new Error(responseGet.status)
         }
@@ -67,27 +96,11 @@ async function getCartas(qtd) {
     }
 }
 
-async function drawOne() {
-    try {
-        const responseGet = await fetch("https://www.deckofcardsapi.com/api/deck/" + deck.deckId + "/draw/?count=1")
-        if (responseGet.status >= 200 && responseGet.status < 300) {
-            responseJson = await responseGet.json()
-
-            var img = document.createElement("img")
-            img.height = 200
-            img.style.padding = "0 10px"
-
-            let url = responseJson.cards[0].image
-            img.src = url
-
-            deck.remaining--
-            document.getElementById("RemainingSection").innerHTML = "Remaining: " + deck.remaining
-
-            document.getElementById("lista").appendChild(img)
-        } else {
-            throw new Error(responseGet.status)
-        }
-    } catch (err) {
-        document.getElementById("IdSection").innerHTML = err.message;
-    }
+function reset() {
+    deck = new Deck(0, 52)
+    hand = new Hand(0)
+    document.getElementById("IdSection").innerHTML = ""
+    document.getElementById("RemainingSection").innerHTML = ""
+    document.getElementById("lista").innerHTML = ""
+    document.getElementById("PlayerPoints").innerHTML = ""
 }
