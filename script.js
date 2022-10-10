@@ -59,8 +59,8 @@ async function getCartas(qtd) {
             for (let i = 0; i < qtd; i++) {
                 //print card image in window
                 var img = document.createElement("img")
-                img.height = 200
-                img.style.padding = "0 10px"
+                img.height = 100
+                img.style.padding = "0"
 
                 let url = responseJson.cards[i].image
                 img.src = url

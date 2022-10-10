@@ -11,16 +11,21 @@
 </head>
 
 <body id="body">
-    <h1>Deck Of Cards</h1>
-    <h2 id="IdSection"></h2>
-    <h3 id="RemainingSection"></h3>
-    <h3 id="PlayerPoints"></h3>
+    <div class="info">
+        <h1>Deck Of Cards</h1>
+        <h2 id="IdSection"></h2>
+        <h3 id="RemainingSection"></h3>
+        <h3 id="PlayerPoints"></h3>
+    </div>
 
     <button onclick="getDeck()">Novo Jogo</button>
     <button onclick="getCartas(1)">Puxar uma carta</button>
     <button onclick="reset()">Resetar</button>
 
-    <ul id="lista"></ul>
+    <div id="screen">
+        <img id="table" src="background.jpg" alt="mesa">
+        <ul id="lista"></ul>
+    </div>
 </body>
 
 </html>

@@ -1,1 +1,39 @@
-body {}
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background: rgb(55,182,51);
+    background: radial-gradient(circle, rgba(55,182,51,1) 0%, rgba(31,110,29,1) 66%);
+}
+
+#screen {
+    width: 60%;
+    margin: auto;
+}
+
+#screen:first-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#table {
+    position: static;
+    border-radius: 200px;
+    height: 400px;
+    width: 100%;
+
+    border: 20px solid rgb(114, 69, 31);
+}
+
+#screen ul{
+    position: absolute;
+    bottom: 40px;
+}
+
+#screen ul img:nth-child(n+2) {
+    position: relative;
+    left: -50px;
+}
