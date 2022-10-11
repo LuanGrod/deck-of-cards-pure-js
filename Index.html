@@ -6,26 +6,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
     <title>Blackjack</title>
 </head>
 
 <body id="body">
-    <div class="info">
-        <h1>Deck Of Cards</h1>
-        <h2 id="IdSection"></h2>
-        <h3 id="RemainingSection"></h3>
-        <h3 id="PlayerPoints"></h3>
-    </div>
-
-    <button onclick="getDeck()">Novo Jogo</button>
-    <button onclick="getCartas(1)">Puxar uma carta</button>
-    <button onclick="reset()">Resetar</button>
-
-    <div id="screen">
-        <img id="table" src="background.jpg" alt="mesa">
+    <div class="table">
+        <img id="tb-bg" src="background.jpg" alt="mesa">
         <ul id="lista"></ul>
     </div>
+    <div class="buttons">
+        <div>
+            <button onclick="getDeck()">Novo Jogo</button>
+            <button onclick="getCard(1)">Puxar uma carta</button>
+        </div>
+        <button onclick="reset()">Resetar</button>
+    </div>
+    <div class="info">
+        <h2 id="IdSection"></h2>
+        <!-- <h3 id="RemainingSection"></h3> -->
+        <h3 id="PlayerPoints"></h3>
+    </div>
+    <script src="script.js"></script>
 </body>
 
 </html>

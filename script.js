@@ -37,10 +37,10 @@ async function getDeck() {
             responseJson = await responseGet.json()
 
             deck.deckId = responseJson.deck_id
-            document.getElementById("IdSection").innerHTML = "Deck ID: " + responseJson.deck_id
+            // document.getElementById("IdSection").innerHTML = "Deck ID: " + responseJson.deck_id
 
             // choose the number of cards that will be draw when initialized
-            getCartas(2)
+            getCard(2)
         } else {
             throw new Error(responseGet.status)
         }
@@ -49,7 +49,7 @@ async function getDeck() {
     }
 }
 
-async function getCartas(qtd) {
+async function getCard(qtd) {
     const URL = "https://www.deckofcardsapi.com/api/deck/" + deck.deckId + "/draw/?count=" + qtd.toString()
     try {
         const responseGet = await fetch(URL)
@@ -59,7 +59,7 @@ async function getCartas(qtd) {
             for (let i = 0; i < qtd; i++) {
                 //print card image in window
                 var img = document.createElement("img")
-                img.height = 100
+                img.height = 130
                 img.style.padding = "0"
 
                 let url = responseJson.cards[i].image
@@ -73,21 +73,14 @@ async function getCartas(qtd) {
                     }
                 }
             }
-            
+
             //print updates in the window
             deck.remaining = deck.remaining - qtd
-            document.getElementById("RemainingSection").innerHTML = "Remaining: " + deck.remaining
+            // document.getElementById("RemainingSection").innerHTML = "Remaining: " + deck.remaining
             document.getElementById("PlayerPoints").innerHTML = "Points: " + hand.points
 
-            setTimeout(() => {
-                if (hand.points > 21) {
-                    alert("YOU LOSE!")
-                    reset()
-                } else if (hand.points == 21) {
-                    alert("YOU WIN!")
-                    reset()
-                }
-            }, 150);
+            //verify player situation
+            await verifyStatus(hand.points)
         } else {
             throw new Error(responseGet.status)
         }
@@ -96,11 +89,16 @@ async function getCartas(qtd) {
     }
 }
 
+async function verifyStatus(points) {
+    let status = points > 21 ? "LOSE" : (points == 21 ? "WIN" : false)
+    status ? alert(status) : ""
+}
+
 function reset() {
     deck = new Deck(0, 52)
     hand = new Hand(0)
     document.getElementById("IdSection").innerHTML = ""
-    document.getElementById("RemainingSection").innerHTML = ""
+    // document.getElementById("RemainingSection").innerHTML = ""
     document.getElementById("lista").innerHTML = ""
     document.getElementById("PlayerPoints").innerHTML = ""
 }
